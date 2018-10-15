@@ -1,0 +1,32 @@
+package com.will.repository;/**
+ * @Auther: lwt
+ * @Date: 2018/10/12 16:20
+ * @Description: TODO
+ */
+
+import com.will.entity.User;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+
+/**
+ * @ClassName UserRepository
+ * @Description TODO
+ * @Author lwt
+ * @date 2018/10/12
+ */
+public interface UserRepository  extends Repository<User, Long>
+{
+
+    List<User> findByNameAndAddress(String name, String address);
+
+    @Query(value = "from User u where u.name=:name")
+    List<User> findByName1(@Param("name") String name);
+
+    @Query(value = "select * from #{#entityName} u where u.name=?1", nativeQuery = true)
+    List<User> findByName2(String name);
+
+    List<User> findByName(String name);
+}
